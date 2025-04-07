@@ -12,9 +12,9 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    gender: str
-    nationality: str
-    age: int
+    gender: Optional[str] = None
+    nationality: Optional[str] = None
+    age: Optional[int] = None
     emails: List[EmailStr]
 
     class Config:

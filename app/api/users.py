@@ -29,7 +29,6 @@ def get_nationality(name: str) -> Optional[str]:
             nationality_data = response.json().get("country")
             if nationality_data:
                 return nationality_data[0].get("country_id")
-            return None
     except requests.ConnectionError:
         return None
 
@@ -103,7 +102,9 @@ def create_user(user_data: UserCreate, session: SessionDep):
         )
 
     existing_user = (
-        session.query(UserModel).filter(UserModel.full_name == user_data.full_name).first()
+        session.query(UserModel)
+        .filter(UserModel.full_name == user_data.full_name)
+        .first()
     )
 
     if existing_user:
@@ -111,7 +112,7 @@ def create_user(user_data: UserCreate, session: SessionDep):
             status_code=400, detail="Пользователь с таким ФИО уже существует"
         )
 
-    first_name = name_parts[0]
+    first_name = name_parts[1]
 
     gender = get_gender(first_name)
     nationality = get_nationality(first_name)
